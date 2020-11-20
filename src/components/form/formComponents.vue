@@ -1,20 +1,17 @@
-<template>
-    <div>
-      <!-- 输入框 -->
-      <template v-if="setting.type == 'input'">
-        <el-input v-model="formData[setting.key]" v-bind="setting" v-on="setting.on" style="width:100%">
-          <template slot="append" v-if="setting.append">
-            <div v-html="setting.appendContent"></div>
-          </template>
-        </el-input>
-      </template>
-    </div>
-</template>
+
 <!-- 表单控件 -->
 <script>
+import rsSelect from "@/components/form/rs-select";
 export default {
   name: "formComponents",
+  components:{
+    rsSelect
+  },
   props:{
+    value:{
+      type:[String,Number],
+      default:''
+    },
     setting:{
       type:Object,
       default:()=>{
@@ -27,6 +24,16 @@ export default {
         return {}
       }
     }
+  },
+
+  render(h){
+    return h(this.setting.type,{props:{value:this.value,...this.setting},on: {
+        input: (value)=>{
+          console.log('emit input出来',value)
+          this.$emit('input', value)
+        },
+        ...(this.setting.on||{})
+      }},this.$slots.default)
   }
 }
 </script>
