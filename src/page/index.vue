@@ -1,22 +1,39 @@
 <template>
   <div>
-    <rs-form v-bind="formObject">
-      <div slot="test">
-        我是test
+    <div>{{formObject.formData}}</div>
+    <div>111</div>
+    <SearchDialog v-bind="formObject" :formDatas="formObject.formData">
+      <div>
+        default
       </div>
-      <div slot="test1">
-        <el-input placeholder="请输入test1"></el-input>
+      <div slot="formSlot">
+        <div slot="test">
+          我是test
+        </div>
+        <div slot="test1">
+          <el-form-item label={test1} prop='test1'>
+            <el-input placeholder="请输入test1" v-model="formObject.formData.test1"></el-input>
+          </el-form-item>
+        </div>
       </div>
-    </rs-form>
+    </SearchDialog>
   </div>
 </template>
 
 <script>
-import rsForm from "@/components/form/form";
+// import rsForm from "@/components/form/BaseForm";
+import SearchDialog from "@/components/form/SearchDialog";
 export default {
   name: "index",
   components:{
-    rsForm
+    // rsForm,
+    SearchDialog
+  },
+  methods:{
+    fetch
+  },
+  updated(){
+    console.log('index更新')
   },
   data(){
     return {
@@ -57,7 +74,13 @@ export default {
         ],
         formData:{
           name:'test1',
-          select:1
+          select:1,
+          test1:''
+        },
+        formRules:{
+          name:[{ required: true, message: '请输入活动名称', trigger: 'change' }],
+          test1:[{ required: true, message: '请输入活动名称', trigger: 'change' }],
+
         }
       }
     }

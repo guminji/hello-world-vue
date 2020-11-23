@@ -15,6 +15,9 @@ export default {
     },
     formData:{
       type:Object
+    },
+    formRules:{
+      type:Object
     }
   },
   methods:{
@@ -24,23 +27,24 @@ export default {
     formComponents
   },
   updated(){
-    console.log(this.formData)
+    console.log('BaseForm更新')
   },
   render(h){
     let {
       formList,
-      formData
+      formData,
+      formRules
     } = this;
 
-    {console.log(this)}
+    console.log(this.$slots)
     return (
           <el-form ref="form"
              {
                 ...{
                     props: {
                       model: formData,////vue jsx element 表单校验的model不可以直接写 以这种方式解决
-
-                      }
+                      rules:formRules
+                      },
                     }
              }
              label-width="80px"
@@ -52,7 +56,7 @@ export default {
                     <el-col span={item.span||12}>
                       {
                         item.type!='slot'?(
-                            <el-form-item label={item.label}>
+                            <el-form-item label={item.label} prop={item.key}>
                               <form-components setting={item} formData={formData} v-model={formData[item.key]}></form-components>
                             </el-form-item>
                         ):(h('div',[this.$slots[item.name]]))

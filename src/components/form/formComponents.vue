@@ -7,6 +7,9 @@ export default {
   components:{
     rsSelect
   },
+  updated(){
+    console.log('formComponetns更新')
+  },
   props:{
     value:{
       type:[String,Number],
